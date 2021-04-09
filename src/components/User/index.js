@@ -4,10 +4,10 @@ import "./style.css";
 const User = ({ info, removeUser }) => {
   const [liked, setLiked] = useState(false);
 
-  const [name, setName] = useState(info?.name);
-  const [email, setEmail] = useState(info?.email);
-  const [phone, setPhone] = useState(info?.phone);
-  const [web, setWeb] = useState(info?.website);
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [phone, setPhone] = useState("");
+  const [web, setWeb] = useState("");
 
   function nameChange(t) {
     setName(t);
@@ -26,23 +26,26 @@ const User = ({ info, removeUser }) => {
     <div className="col-smd-6 col-md-6 my-4 ">
       <div className="card">
         <img
-          src={`https://avatars.dicebear.com/v2/avataaars/${info.username}.svg?options[mood][]=happy`}
+          src={`https://avatars.dicebear.com/v2/avataaars/${info.name}.svg?options[mood][]=happy`}
           alt="resim"
           style={{ width: "200px", alignSelf: "center" }}
         />
         <div className="card-body text-center">
-          <h5 className="card-title">{name}</h5>
+          <h5 className="card-title">{name ? name : info.name}</h5>
         </div>
         <ul className="list-group list-group-flush">
           <li className="list-group-item">
             {" "}
-            <i class="fa fa-envelope" aria-hidden="true"></i> {email}
+            <i class="fa fa-envelope" aria-hidden="true"></i>{" "}
+            {email ? email : info.email}
           </li>
           <li className="list-group-item">
-            <i class="fa fa-phone" aria-hidden="true"></i> {phone}
+            <i class="fa fa-phone" aria-hidden="true"></i>{" "}
+            {phone ? phone : info.phone}
           </li>
           <li className="list-group-item">
-            <i class="fa fa-globe" aria-hidden="true"></i> {web}
+            <i class="fa fa-globe" aria-hidden="true"></i>{" "}
+            {web ? web : info.website}
           </li>
         </ul>
         <div className="d-flex justify-content-center card-body text-center">
@@ -67,7 +70,13 @@ const User = ({ info, removeUser }) => {
           />
 
           <button
-            onClick={() => removeUser(info.id)}
+            onClick={() => {
+              removeUser(info.name);
+              setName("");
+              setEmail("");
+              setPhone("");
+              setWeb("");
+            }}
             className="card-link trash-button"
           >
             <i class="fa fa-trash" aria-hidden="true"></i>

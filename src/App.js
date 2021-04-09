@@ -5,7 +5,7 @@ import { User } from "./components/User";
 import { Preloader } from "./components/Preloader";
 
 function App() {
-  const [users, setUsers] = useState(false);
+  const [users, setUsers] = useState([]);
 
   function fetchUsersNew() {
     fetch("https://jsonplaceholder.typicode.com/users")
@@ -16,8 +16,7 @@ function App() {
   }
 
   function filterUsers(id) {
-    console.log("id", id);
-    const filteredUsers = users.filter((user) => user.id !== id);
+    const filteredUsers = users.filter((user) => user.name !== id);
     setUsers(filteredUsers);
   }
 
@@ -30,6 +29,7 @@ function App() {
   return (
     <div className="App">
       <h1>Contacts</h1>
+      {console.log("users", users)}
       <div className="row">
         {users.length > 0 ? (
           users.map((user, index) => {

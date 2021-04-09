@@ -19,7 +19,6 @@ const Modals = ({
     setShow(false);
   };
   const handleShow = () => setShow(true);
-  console.log("modalınfo", modalInfo);
 
   return (
     <>
