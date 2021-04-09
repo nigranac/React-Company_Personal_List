@@ -1,0 +1,24 @@
+.trash-button {
+  background: none;
+  border: none;
+  color: rgb(54, 67, 180);
+  font-size: 36px;
+  cursor: pointer;
+  outline: none;
+}
+.edit-icon {
+  background: none;
+  border: none;
+  color: rgb(43, 175, 94);
+  font-size: 36px;
+  cursor: pointer;
+  outline: none;
+}
+.likeIcon {
+  background: none;
+  border: none;
+  color: rgb(209, 52, 52);
+  font-size: 40px;
+  cursor: pointer;
+  outline: none;
+}

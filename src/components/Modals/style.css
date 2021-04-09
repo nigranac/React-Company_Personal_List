@@ -1,0 +1,21 @@
+.modal-body-div {
+  width: 80%;
+  justify-content: center;
+  display: flex;
+  margin-top: 1rem;
+}
+.modal-text {
+  display: inline-block;
+  width: 30%;
+  font-size: 1.1rem;
+  padding-top: 1.2rem;
+}
+.modal-text::before {
+  color: #f5222d;
+  content: "*";
+  display: inline-block;
+  font-family: SimSun, sans-serif;
+  font-size: 14px;
+  line-height: 1;
+  margin-right: 4px;
+}
