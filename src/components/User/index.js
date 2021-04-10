@@ -1,15 +1,13 @@
 import React, { useState } from "react";
 import { Modals } from "../Modals";
-import { useSelector, useDispatch } from "react-redux";
+import { useDispatch } from "react-redux";
 import "./style.css";
 import { deleteUser } from "../../state/action-creators/userActions";
 
 const User = ({ info, userIndex }) => {
   const dispatch = useDispatch();
-  const userlist = useSelector((state) => state.users.userlist);
-  const minfo = userlist[userIndex];
+
   const [liked, setLiked] = useState(false);
-  console.log("minfo", minfo);
 
   return (
     <div className="col-smd-6 col-md-6 my-4 ">
@@ -48,7 +46,7 @@ const User = ({ info, userIndex }) => {
             ></i>
           </button>
 
-          <Modals id={info.id} minfo={minfo} index={userIndex} />
+          <Modals id={info.id} info={info} index={userIndex} />
           <button
             onClick={() => {
               dispatch(deleteUser({ id: info.id }));

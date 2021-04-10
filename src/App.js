@@ -1,5 +1,5 @@
 import "./App.css";
-import { useState, useEffect } from "react";
+import { useEffect } from "react";
 import "../node_modules/bootstrap/dist/css/bootstrap.min.css";
 import { User } from "./components/User";
 import { Preloader } from "./components/Preloader";

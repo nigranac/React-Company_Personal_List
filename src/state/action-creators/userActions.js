@@ -28,18 +28,3 @@ export const getUserlist = () => async (dispatch) => {
     });
   } catch (error) {}
 };
-
-export const getEditUser = (id) => async (dispatch) => {
-  dispatch({
-    type: actionTypes.USER_LIST_EDIT,
-  });
-
-  try {
-    const data = await fetch("https://jsonplaceholder.typicode.com/users");
-    const dataJson = await data.json();
-    dispatch({
-      type: actionTypes.USER_LIST_SUCCESS,
-      payload: dataJson,
-    });
-  } catch (error) {}
-};

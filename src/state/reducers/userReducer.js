@@ -1,3 +1,4 @@
+import { updateUser } from "../action-creators/userActions";
 import * as actionTypes from "../action-types/actionTypes";
 
 export const userReducer = (state = { userlist: [] }, action) => {
@@ -9,7 +10,6 @@ export const userReducer = (state = { userlist: [] }, action) => {
     case actionTypes.USER_LIST_FAIL:
       return { loading: false, error: action.payload };
     case actionTypes.UPDATE_USER:
-      console.log("das", action.payload);
       const updateIndex = state.userlist.map((user) => {
         if (user.id === action.payload.data.id) {
           return (user = action.payload.data);
@@ -21,13 +21,10 @@ export const userReducer = (state = { userlist: [] }, action) => {
       return { ...state, userlist: updateIndex };
 
     case actionTypes.DELETE_USER:
-      const selectedIndexNew = state.userlist.findIndex(
-        (item) => item.id == action.payload.id
+      const filteredList = state.userlist.filter(
+        (item) => item.id !== action.payload.id
       );
-
-      const spliceList = state.userlist.splice(selectedIndexNew, 1);
-
-      return { userlist: state.userlist };
+      return { ...state, userlist: filteredList };
 
     default:
       return state;
