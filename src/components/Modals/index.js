@@ -4,25 +4,49 @@ import { Modal, Button } from "react-bootstrap";
 import { updateUser } from "../../state/action-creators/userActions";
 import { useSelector, useDispatch } from "react-redux";
 
-const Modals = ({ minfo, index }) => {
+const Modals = ({ minfo, index, id }) => {
   const dispatch = useDispatch();
-  const userlist = useSelector((state) => state.users.userlist);
-  const info = userlist[index];
-  console.log("userList", userlist);
 
-  console.log("index", index);
   const [show, setShow] = useState(false);
 
-  const [nameModal, setNameModal] = useState(info.name);
-  const [namesModal, setNamesModal] = useState(info.name);
-  const [emailModal, setEmailModal] = useState(info.email);
-  const [phoneModal, setPhoneModal] = useState(info.phone);
-  const [webModal, setWebModal] = useState(info.website);
+  const [nameModal, setNameModal] = useState(minfo.name);
+  const [namesModal, setNamesModal] = useState(minfo.name);
+  const [emailModal, setEmailModal] = useState(minfo.email);
+  const [phoneModal, setPhoneModal] = useState(minfo.phone);
+  const [webModal, setWebModal] = useState(minfo.website);
 
   const handleClose = () => {
     setShow(false);
   };
   const handleShow = () => setShow(true);
+
+  async function updateUserEdit() {
+    const payload = {
+      name: nameModal,
+
+      email: emailModal,
+
+      phone: phoneModal,
+      website: webModal,
+    };
+    const requestOptions = {
+      method: "PUT",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(payload),
+    };
+    const response = await fetch(
+      `https://jsonplaceholder.typicode.com/users/${id}`,
+      requestOptions
+    );
+    const data = await response.json();
+    console.log("data", data);
+    dispatch(
+      updateUser({
+        data: data,
+      })
+    );
+    setShow(false);
+  }
 
   return (
     <>
@@ -44,36 +68,40 @@ const Modals = ({ minfo, index }) => {
           <div className="modal-body-div" style={{}}>
             <p className="modal-text">Name:</p>
             <input
+              name="name"
               onChange={(e) => {
                 setNamesModal(e.target.value);
                 setNameModal(e.target.value);
               }}
               type="text"
-              defaultValue={info.name}
+              defaultValue={minfo.name}
             />
           </div>
           <div className="modal-body-div">
             <p className="modal-text">Email:</p>
             <input
+              name="email"
               onChange={(e) => setEmailModal(e.target.value)}
               type="text"
-              defaultValue={info.email}
+              defaultValue={minfo.email}
             />
           </div>
           <div className="modal-body-div">
             <p className="modal-text">Phone:</p>
             <input
+              name="phone"
               onChange={(e) => setPhoneModal(e.target.value)}
               type="text"
-              defaultValue={info.phone}
+              defaultValue={minfo.phone}
             />
           </div>
           <div className="modal-body-div">
             <p className="modal-text">Website:</p>
             <input
+              name="website"
               onChange={(e) => setWebModal(e.target.value)}
               type="text"
-              defaultValue={info.website}
+              defaultValue={minfo.website}
             />
           </div>
         </Modal.Body>
@@ -81,21 +109,7 @@ const Modals = ({ minfo, index }) => {
           <Button variant="secondary" onClick={handleClose}>
             Close
           </Button>
-          <Button
-            variant="primary"
-            onClick={() => {
-              dispatch(
-                updateUser({
-                  id: minfo.id,
-                  name: minfo.name && nameModal,
-                  email: minfo.email && emailModal,
-                  phone: minfo.phone && phoneModal,
-                  website: minfo.website && webModal,
-                })
-              );
-              setShow(false);
-            }}
-          >
+          <Button variant="primary" onClick={updateUserEdit}>
             Save Changes
           </Button>
         </Modal.Footer>

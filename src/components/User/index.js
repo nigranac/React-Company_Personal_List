@@ -3,17 +3,19 @@ import { Modals } from "../Modals";
 import { useSelector, useDispatch } from "react-redux";
 import "./style.css";
 import { deleteUser } from "../../state/action-creators/userActions";
-import { Modal, Button } from "react-bootstrap";
-import { updateUser } from "../../state/action-creators/userActions";
+
 const User = ({ info, userIndex }) => {
   const dispatch = useDispatch();
+  const userlist = useSelector((state) => state.users.userlist);
+  const minfo = userlist[userIndex];
   const [liked, setLiked] = useState(false);
+  console.log("minfo", minfo);
 
   return (
     <div className="col-smd-6 col-md-6 my-4 ">
       <div className="card">
         <img
-          src={`https://avatars.dicebear.com/v2/avataaars/${info.username}.svg?options[mood][]=happy`}
+          src={`https://avatars.dicebear.com/v2/avataaars/${info.id}.svg?options[mood][]=happy`}
           alt="resim"
           style={{ width: "200px", alignSelf: "center" }}
         />
@@ -46,7 +48,7 @@ const User = ({ info, userIndex }) => {
             ></i>
           </button>
 
-          <Modals minfo={info} index={userIndex} />
+          <Modals id={info.id} minfo={minfo} index={userIndex} />
           <button
             onClick={() => {
               dispatch(deleteUser({ id: info.id }));

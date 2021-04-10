@@ -9,13 +9,9 @@ import { getUserlist } from "./state/action-creators/userActions";
 function App() {
   const dispatch = useDispatch();
   const userlist = useSelector((state) => state.users.userlist);
-  const userlistED = useSelector((state) => state);
-  console.log(userlistED);
 
   useEffect(() => {
-    setTimeout(() => {
-      dispatch(getUserlist());
-    }, 500);
+    dispatch(getUserlist());
   }, []);
 
   return (
@@ -25,7 +21,7 @@ function App() {
       <div className="row">
         {userlist?.length > 0 ? (
           userlist.map((user, index) => {
-            return <User info={user} userIndex={index} key={index} />;
+            return <User info={user} userIndex={index} key={user.id} />;
           })
         ) : (
           <Preloader />
