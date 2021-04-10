@@ -1,19 +1,23 @@
 import React, { useState } from "react";
 import "./style.css";
 import { Modal, Button } from "react-bootstrap";
+import { updateUser } from "../../state/action-creators/userActions";
+import { useSelector, useDispatch } from "react-redux";
 
-const Modals = ({
-  modalInfo,
-  nameChange,
-  emailChange,
-  phoneChange,
-  webChange,
-}) => {
+const Modals = ({ minfo, index }) => {
+  const dispatch = useDispatch();
+  const userlist = useSelector((state) => state.users.userlist);
+  const info = userlist[index];
+  console.log("userList", userlist);
+
+  console.log("index", index);
   const [show, setShow] = useState(false);
-  const [nameModal, setNameModal] = useState(modalInfo.name);
-  const [emailModal, setEmailModal] = useState(modalInfo.email);
-  const [phoneModal, setPhoneModal] = useState(modalInfo.phone);
-  const [webModal, setWebModal] = useState(modalInfo.website);
+
+  const [nameModal, setNameModal] = useState(info.name);
+  const [namesModal, setNamesModal] = useState(info.name);
+  const [emailModal, setEmailModal] = useState(info.email);
+  const [phoneModal, setPhoneModal] = useState(info.phone);
+  const [webModal, setWebModal] = useState(info.website);
 
   const handleClose = () => {
     setShow(false);
@@ -40,9 +44,12 @@ const Modals = ({
           <div className="modal-body-div" style={{}}>
             <p className="modal-text">Name:</p>
             <input
-              onChange={(e) => setNameModal(e.target.value)}
+              onChange={(e) => {
+                setNamesModal(e.target.value);
+                setNameModal(e.target.value);
+              }}
               type="text"
-              defaultValue={modalInfo.name}
+              defaultValue={info.name}
             />
           </div>
           <div className="modal-body-div">
@@ -50,7 +57,7 @@ const Modals = ({
             <input
               onChange={(e) => setEmailModal(e.target.value)}
               type="text"
-              defaultValue={modalInfo.email}
+              defaultValue={info.email}
             />
           </div>
           <div className="modal-body-div">
@@ -58,7 +65,7 @@ const Modals = ({
             <input
               onChange={(e) => setPhoneModal(e.target.value)}
               type="text"
-              defaultValue={modalInfo.phone}
+              defaultValue={info.phone}
             />
           </div>
           <div className="modal-body-div">
@@ -66,7 +73,7 @@ const Modals = ({
             <input
               onChange={(e) => setWebModal(e.target.value)}
               type="text"
-              defaultValue={modalInfo.website}
+              defaultValue={info.website}
             />
           </div>
         </Modal.Body>
@@ -77,10 +84,15 @@ const Modals = ({
           <Button
             variant="primary"
             onClick={() => {
-              nameChange(nameModal);
-              emailChange(emailModal);
-              phoneChange(phoneModal);
-              webChange(webModal);
+              dispatch(
+                updateUser({
+                  id: minfo.id,
+                  name: minfo.name && nameModal,
+                  email: minfo.email && emailModal,
+                  phone: minfo.phone && phoneModal,
+                  website: minfo.website && webModal,
+                })
+              );
               setShow(false);
             }}
           >

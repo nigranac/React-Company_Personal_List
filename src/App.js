@@ -3,43 +3,29 @@ import { useState, useEffect } from "react";
 import "../node_modules/bootstrap/dist/css/bootstrap.min.css";
 import { User } from "./components/User";
 import { Preloader } from "./components/Preloader";
+import { useSelector, useDispatch } from "react-redux";
+import { getUserlist } from "./state/action-creators/userActions";
 
 function App() {
-  const [users, setUsers] = useState([]);
-
-  function fetchUsersNew() {
-    fetch("https://jsonplaceholder.typicode.com/users")
-      .then((res) => res.json())
-      .then((resp) => {
-        setUsers(resp);
-      });
-  }
-
-  function filterUsers(id) {
-    const filteredUsers = users.filter((user) => user.name !== id);
-    setUsers(filteredUsers);
-  }
+  const dispatch = useDispatch();
+  const userlist = useSelector((state) => state.users.userlist);
+  const userlistED = useSelector((state) => state);
+  console.log(userlistED);
 
   useEffect(() => {
     setTimeout(() => {
-      fetchUsersNew();
+      dispatch(getUserlist());
     }, 500);
   }, []);
 
   return (
     <div className="App">
       <h1>Contacts</h1>
-      {console.log("users", users)}
+
       <div className="row">
-        {users.length > 0 ? (
-          users.map((user, index) => {
-            return (
-              <User
-                info={user}
-                key={index}
-                removeUser={(id) => filterUsers(id)}
-              />
-            );
+        {userlist?.length > 0 ? (
+          userlist.map((user, index) => {
+            return <User info={user} userIndex={index} key={index} />;
           })
         ) : (
           <Preloader />

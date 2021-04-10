@@ -1,51 +1,35 @@
 import React, { useState } from "react";
 import { Modals } from "../Modals";
+import { useSelector, useDispatch } from "react-redux";
 import "./style.css";
-const User = ({ info, removeUser }) => {
+import { deleteUser } from "../../state/action-creators/userActions";
+import { Modal, Button } from "react-bootstrap";
+import { updateUser } from "../../state/action-creators/userActions";
+const User = ({ info, userIndex }) => {
+  const dispatch = useDispatch();
   const [liked, setLiked] = useState(false);
-
-  const [name, setName] = useState("");
-  const [email, setEmail] = useState("");
-  const [phone, setPhone] = useState("");
-  const [web, setWeb] = useState("");
-
-  function nameChange(t) {
-    setName(t);
-  }
-  function emailChange(t) {
-    setEmail(t);
-  }
-  function phoneChange(t) {
-    setPhone(t);
-  }
-  function webChange(t) {
-    setWeb(t);
-  }
 
   return (
     <div className="col-smd-6 col-md-6 my-4 ">
       <div className="card">
         <img
-          src={`https://avatars.dicebear.com/v2/avataaars/${info.name}.svg?options[mood][]=happy`}
+          src={`https://avatars.dicebear.com/v2/avataaars/${info.username}.svg?options[mood][]=happy`}
           alt="resim"
           style={{ width: "200px", alignSelf: "center" }}
         />
         <div className="card-body text-center">
-          <h5 className="card-title">{name ? name : info.name}</h5>
+          <h5 className="card-title">{info.name}</h5>
         </div>
         <ul className="list-group list-group-flush">
           <li className="list-group-item">
             {" "}
-            <i class="fa fa-envelope" aria-hidden="true"></i>{" "}
-            {email ? email : info.email}
+            <i class="fa fa-envelope" aria-hidden="true"></i> {info.email}
           </li>
           <li className="list-group-item">
-            <i class="fa fa-phone" aria-hidden="true"></i>{" "}
-            {phone ? phone : info.phone}
+            <i class="fa fa-phone" aria-hidden="true"></i> {info.phone}
           </li>
           <li className="list-group-item">
-            <i class="fa fa-globe" aria-hidden="true"></i>{" "}
-            {web ? web : info.website}
+            <i class="fa fa-globe" aria-hidden="true"></i> {info.website}
           </li>
         </ul>
         <div className="d-flex justify-content-center card-body text-center">
@@ -61,21 +45,11 @@ const User = ({ info, removeUser }) => {
               aria-hidden="true"
             ></i>
           </button>
-          <Modals
-            modalInfo={info}
-            nameChange={(t) => nameChange(t)}
-            emailChange={(t) => emailChange(t)}
-            phoneChange={(t) => phoneChange(t)}
-            webChange={(t) => webChange(t)}
-          />
 
+          <Modals minfo={info} index={userIndex} />
           <button
             onClick={() => {
-              removeUser(info.name);
-              setName("");
-              setEmail("");
-              setPhone("");
-              setWeb("");
+              dispatch(deleteUser({ id: info.id }));
             }}
             className="card-link trash-button"
           >
